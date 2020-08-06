@@ -11,16 +11,23 @@ export default new Vuex.Store({
   mutations: {
     SET_TASKS(state, data) {
       state.tasks = data;
+    },
+    UPDATE_TASK_STATUS({ tasks }, { id, completed }) {
+      tasks.map(item => (item.id === id ? (item.completed = completed) : item));
     }
   },
   actions: {
     async getTasks({ commit }) {
       const response = await tasksApi.getTasks();
-      commit("SET_TASKS", response);
+      if (await response) {
+        commit("SET_TASKS", response);
+      }
     },
-    async toggleCompleted({ commit }, data) {
-      const response = await tasksApi.toggleCompleted(data);
-      commit("SET_TASKS", response);
+    async toggleCompleted({ commit }, payload) {
+      const response = await tasksApi.toggleCompleted(payload);
+      if (response) {
+        commit("UPDATE_TASK_STATUS", payload);
+      }
     }
   },
   modules: {}

@@ -7,7 +7,7 @@
           v-for="task in tasks"
           v-bind="task"
           :key="task.id"
-          @click="toggleCompleted(task._id, task.completed)"
+          @click="toggleCompleted(task.id, task.completed)"
         />
       </TodoList>
     </v-container>
