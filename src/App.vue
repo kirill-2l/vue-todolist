@@ -1,16 +1,20 @@
 <template>
   <div class="app">
-    <v-container class="app-container">
+    <div class="app-container container">
       <div class="app-name">Todo app</div>
-      <TodoList>
-        <TodoItem
-          v-for="task in tasks"
-          v-bind="task"
-          :key="task.id"
-          @click="toggleCompleted(task.id, task.completed)"
-        />
-      </TodoList>
-    </v-container>
+      <AppLoader v-if="!tasks" />
+      <div v-else>
+        <TodoList>
+          <TodoListItem
+            v-for="task in tasks"
+            v-bind="task"
+            :key="task.id"
+            @click="toggleCompleted(task.id, task.completed)"
+          />
+        </TodoList>
+        <TodoForm />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,16 +22,20 @@
 import { mapState } from "vuex";
 
 import TodoList from "./components/TodoList";
-import TodoItem from "./components/TodoItem";
+import TodoForm from "./components/TodoForm";
+import TodoListItem from "./components/TodoListItem";
+import AppLoader from "./components/AppLoader";
 
 export default {
   name: "App",
 
-  computed: mapState(["tasks"]),
   components: {
+    AppLoader,
     TodoList,
-    TodoItem
+    TodoListItem,
+    TodoForm
   },
+  computed: mapState(["tasks"]),
   methods: {
     toggleCompleted(id, completed) {
       this.$store.dispatch("toggleCompleted", { id, completed: !completed });
@@ -44,13 +52,20 @@ html,
 body {
   height: 100vh;
 }
-.app-name {
-  font-size: 6rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
+.app {
+  &-container.container {
+    margin-top: 5%;
+  }
+  &-name {
+    font-size: 6rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
 }
-.app-container.container {
+
+.container {
+  margin: 0 auto;
   max-width: 600px;
-  margin-top: 5%;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <v-list-item-group multiple>
+  <ul class="todo-list">
     <slot />
-  </v-list-item-group>
+  </ul>
 </template>
 
 <script>
@@ -10,4 +10,9 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.todo-list {
+  display: grid;
+  row-gap: 1.5em;
+}
+</style>
